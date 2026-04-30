@@ -75,12 +75,35 @@ client.on("messageCreate", async message => {
       return message.reply("use this format:\n`JJK | 9 | Gojo carried | yes`");
     }
 
-    const embed = new EmbedBuilder()
-      .setColor(rating === 10 ? "#fff35c" : fav ? "#ff8ad8" : "#ff4fb8")
-      .setTitle(`🎴 ${anime}`)
-      .setDescription(`⭐ **${rating}/10**\n\n💭 ${thoughts}\n\n👤 ${message.author}`)
-      .setTimestamp();
-
+   const embed = new EmbedBuilder()
+  .setColor(rating === 10 ? "#fff35c" : fav ? "#ff8ad8" : "#ff4fb8")
+  .setAuthor({
+    name:
+      rating === 10
+        ? "🏆 top tier anime card"
+        : fav
+        ? "💖 favorite anime card"
+        : "🍥 anime rating card"
+  })
+  .setTitle(`🎴 ${anime}`)
+  .setDescription(
+    "━━━ ✦ rating ✦ ━━━\n" +
+    `⭐ **${rating}/10**\n\n` +
+    "━━━ ✦ thoughts ✦ ━━━\n" +
+    `💭 ${thoughts}\n\n` +
+    "━━━ ✦ rated by ✦ ━━━\n" +
+    `👤 ${message.author}`
+  )
+  .setThumbnail(message.author.displayAvatarURL({ dynamic: true }))
+  .setFooter({
+    text:
+      rating === 10
+        ? "certified top tier ✨"
+        : fav
+        ? "favorite pick 💖"
+        : "harajuku anime district ✨"
+  })
+  .setTimestamp();
     const main = message.guild.channels.cache.get(process.env.ANIME_RATINGS_CHANNEL_ID);
     if (!main) return message.reply("anime ratings channel ID is missing in `.env`.");
 
